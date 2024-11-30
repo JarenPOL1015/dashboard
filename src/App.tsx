@@ -10,6 +10,7 @@ import LineChartWeather from './components/LineChartWeather';
 
 {/* Hooks */ }
 import { useEffect, useState } from 'react';
+import Header from './components/Header';
 
 interface Indicator {
   title?: String;
@@ -69,6 +70,9 @@ function App() {
   }, [])
 
   return (
+    <>
+    <Header></Header>
+
     <Grid container spacing={5}>
 
          {/* Indicadores */}
@@ -120,7 +124,10 @@ function App() {
         </Grid>
     
     </Grid>
-  )
+    </>
+    
+  );
+
 }
 
 export default App
