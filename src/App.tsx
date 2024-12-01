@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import DatosGenerales from './components/DatosGenerales';
 import PuestaSol from './components/PuestaSol';
+import Pronostico from './components/Pronostico';
 
 interface Indicator {
   title?: String;
@@ -83,6 +84,7 @@ function App() {
     <Header></Header>
     <DatosGenerales indicators={indicators} />
     <PuestaSol indicators={datosVarios}></PuestaSol>
+    <Pronostico></Pronostico>
     <Grid container spacing={5}>
         {/* Tabla */}
         <Grid size={{ xs: 12, xl: 8 }}>
