@@ -1,6 +1,51 @@
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Card, CardContent, Grid, List, ListItem, ListItemText } from '@mui/material';
 
-export default function Pronostico() {
+interface forecastClima {
+    temperatura: string,
+    precipitacion: string,
+    desde: string,
+    hasta: string,
+    nubes: string
+}
+
+interface PronosticoProp {
+    lista: forecastClima[]
+}
+
+export default function Pronostico({lista}: PronosticoProp) {
+    
+    // Función para formatear la fecha en formato DD-MM-YYYY
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');  // Los meses empiezan desde 0
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
+
+    // Función para extraer solo la hora en formato HH:MM:SS
+    const formatTime = (dateString: string) => {
+        const time = dateString.split("T")[1];  // Obtiene la parte de la hora
+        return time;
+    };
+
+    // Clasificación de los pronósticos en 3 categorías: mañana, tarde, noche
+    const morningData = lista.filter(item => {
+        const hour = parseInt(item.desde.split("T")[1].split(":")[0]);
+        return hour >= 6 && hour < 12;  // Filtra para horas de la mañana (06:00 - 11:59)
+    });
+
+    const afternoonData = lista.filter(item => {
+        const hour = parseInt(item.desde.split("T")[1].split(":")[0]);
+        return hour >= 12 && hour < 18;  // Filtra para horas de la tarde (12:00 - 17:59)
+    });
+
+    const nightData = lista.filter(item => {
+        const hour = parseInt(item.desde.split("T")[1].split(":")[0]);
+        return hour >= 18 || hour < 6;  // Filtra para horas de la noche (18:00 - 05:59)
+    });
+
+
     return (
         <>
             <Typography
@@ -39,6 +84,139 @@ export default function Pronostico() {
                     Fecha: 01/12/2024
                 </Typography>
             </Box>
+            {/* Contenedor para las tarjetas */}
+            {/* Contenedor para las tarjetas */}
+            <Grid container spacing={2} sx={{ marginTop: '20px' }}>
+
+                {/* Mañana */}
+                {morningData.length > 0 && (
+                    <Grid item xs={4}>
+                        <Box
+                            sx={{
+                                backgroundColor: '#4CAF50',
+                                padding: '10px',
+                                borderRadius: '10px',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
+                                Mañana
+                            </Typography>
+                        </Box>
+                        {morningData.map((item, index) => (
+                            <Card key={index} sx={{ marginTop: '10px' }}>
+                                <CardContent>
+                                    <img src="" alt="weather" width="40" height="40" />
+                                    <Typography variant="h6">{item.nubes}</Typography>
+                                    <List>
+                                        <ListItem>
+                                            <ListItemText primary={`Temperatura: ${item.temperatura}°C`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Precipitación: ${item.precipitacion}%`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Fecha: ${formatDate(item.desde)}`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Desde: ${formatTime(item.desde)}`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Hasta: ${formatTime(item.hasta)}`} />
+                                        </ListItem>
+                                    </List>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </Grid>
+                )}
+
+                {/* Tarde */}
+                {afternoonData.length > 0 && (
+                    <Grid item xs={4}>
+                        <Box
+                            sx={{
+                                backgroundColor: '#FF9800',
+                                padding: '10px',
+                                borderRadius: '10px',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
+                                Tarde
+                            </Typography>
+                        </Box>
+                        {afternoonData.map((item, index) => (
+                            <Card key={index} sx={{ marginTop: '10px' }}>
+                                <CardContent>
+                                    <img src="" alt="weather" width="40" height="40" />
+                                    <Typography variant="h6">{item.nubes}</Typography>
+                                    <List>
+                                        <ListItem>
+                                            <ListItemText primary={`Temperatura: ${item.temperatura}°C`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Precipitación: ${item.precipitacion}%`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Fecha: ${formatDate(item.desde)}`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Desde: ${formatTime(item.desde)}`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Hasta: ${formatTime(item.hasta)}`} />
+                                        </ListItem>
+                                    </List>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </Grid>
+                )}
+
+                {/* Noche */}
+                {nightData.length > 0 && (
+                    <Grid item xs={4}>
+                        <Box
+                            sx={{
+                                backgroundColor: '#3F51B5',
+                                padding: '10px',
+                                borderRadius: '10px',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
+                                Noche
+                            </Typography>
+                        </Box>
+                        {nightData.map((item, index) => (
+                            <Card key={index} sx={{ marginTop: '10px' }}>
+                                <CardContent>
+                                    <img src="" alt="weather" width="40" height="40" />
+                                    <Typography variant="h6">{item.nubes}</Typography>
+                                    <List>
+                                        <ListItem>
+                                            <ListItemText primary={`Temperatura: ${item.temperatura}°C`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Precipitación: ${item.precipitacion}%`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Fecha: ${formatDate(item.desde)}`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Desde: ${formatTime(item.desde)}`} />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText primary={`Hasta: ${formatTime(item.hasta)}`} />
+                                        </ListItem>
+                                    </List>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </Grid>
+                )}
+            </Grid>
         </>
     );
 }

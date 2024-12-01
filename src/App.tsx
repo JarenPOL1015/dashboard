@@ -20,12 +20,21 @@ interface Indicator {
   value?: String;
 }
 
+interface forecastClima {
+  temperatura: string,
+  precipitacion: string,
+  desde: string,
+  hasta: string,
+  nubes: string
+}
+
 function App() {
   // const [count, setCount] = useState(0)
 
   {/* Variable de estado y función de actualización */}
   let [indicators, setIndicators] = useState<Indicator[]>([]);
   let [datosVarios, setDatosVarios] = useState<Indicator[]>([]);
+  let [climas_dias, setClimas_dias] = useState<forecastClima[]>([]);
 
   {/* Hook: useEffect */}
   useEffect( () => {
@@ -40,6 +49,39 @@ function App() {
       const parser = new DOMParser();
       const xml = parser.parseFromString(savedTextXML, "application/xml");
 
+      {/* Obtener datos para mañana, tarde y noche */}
+
+      const forecastTimes = xml.getElementsByTagName("time");
+
+      let forecastList : forecastClima[] = []
+
+      let horas = ["06:00:00", "12:00:00", "21:00:00"]
+
+      for (let i = 0; i < forecastTimes.length; i++) {
+        const elemento_time = forecastTimes[i];
+        const hora_desde = elemento_time.getAttribute("from") || "";
+        const hora_hasta = elemento_time.getAttribute("to") || "";
+      
+        let hora_comparar = hora_desde?.split("T")[1].toString().trim() || "";
+
+        // Filtrar solo los pronósticos que corresponden al día actual
+        if (horas.includes(hora_comparar)) { 
+          
+          const temperature = elemento_time.getElementsByTagName("temperature")[0]?.getAttribute("value");
+          const precipitacion = elemento_time.getElementsByTagName("precipitation")[0]?.getAttribute("probability");
+          const nubes = elemento_time.getElementsByTagName("clouds")[0]?.getAttribute("value");
+          
+          forecastList.push({
+            "desde": hora_desde || "",
+            "hasta": hora_hasta || "",
+            "temperatura": temperature || "",
+            "precipitacion": precipitacion || "",
+            "nubes": nubes || ""
+          });
+          // Eliminar la hora de la lista para que no se vuelva a agregar
+          horas = horas.filter(hora => hora !== hora_comparar);
+        }
+      }
        {/* Arreglo para agregar los resultados */}
 
        let dataToIndicators : Indicator[] = new Array<Indicator>();
@@ -73,18 +115,21 @@ function App() {
       {/* Modificación de la variable de estado mediante la función de actualización */}
       setIndicators( dataToIndicators );
       setDatosVarios( datosVariosObtenidos );
+      setClimas_dias( forecastList );
     }
 
     request();
 
   }, [])
 
+  console.log(climas_dias);
+
   return (
     <>
     <Header></Header>
     <DatosGenerales indicators={indicators} />
     <PuestaSol indicators={datosVarios}></PuestaSol>
-    <Pronostico></Pronostico>
+    <Pronostico lista={climas_dias}></Pronostico>
     <Grid container spacing={5}>
         {/* Tabla */}
         <Grid size={{ xs: 12, xl: 8 }}>
