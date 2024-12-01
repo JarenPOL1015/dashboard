@@ -3,7 +3,6 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import Grid from '@mui/material/Grid2' 
-import IndicatorWeather from './components/IndicatorWeather'
 import TableWeather from './components/TableWeather';
 import ControlWeather from './components/ControlWeather';
 import LineChartWeather from './components/LineChartWeather';
@@ -11,6 +10,7 @@ import LineChartWeather from './components/LineChartWeather';
 {/* Hooks */ }
 import { useEffect, useState } from 'react';
 import Header from './components/Header';
+import DatosGenerales from './components/DatosGenerales';
 
 interface Indicator {
   title?: String;
@@ -46,19 +46,16 @@ function App() {
            en el arreglo de resultados
        */}
 
-       let name = xml.getElementsByTagName("name")[0].innerHTML || ""
-       dataToIndicators.push({"title":"Location", "subtitle": "City", "value": name})
+       // let name = xml.getElementsByTagName("name")[0].innerHTML || ""
+       // dataToIndicators.push({"title":"Location", "subtitle": "City", "value": name})
 
        let location = xml.getElementsByTagName("location")[1]
 
        let latitude = location.getAttribute("latitude") || ""
-       dataToIndicators.push({ "title": "Location", "subtitle": "Latitude", "value": latitude })
+       dataToIndicators.push({ "title": "Latitud", "value": latitude })
 
        let longitude = location.getAttribute("longitude") || ""
-       dataToIndicators.push({ "title": "Location", "subtitle": "Longitude", "value": longitude })
-
-       let altitude = location.getAttribute("altitude") || ""
-       dataToIndicators.push({ "title": "Location", "subtitle": "Altitude", "value": altitude })
+       dataToIndicators.push({ "title": "Longitud", "value": longitude })
 
       // console.log( dataToIndicators )
       {/* Modificación de la variable de estado mediante la función de actualización */}
@@ -72,39 +69,8 @@ function App() {
   return (
     <>
     <Header></Header>
-
+    <DatosGenerales indicators={indicators} />
     <Grid container spacing={5}>
-
-         {/* Indicadores */}
-        {/* 
-        <Grid size={{ xs: 12, xl: 3 }}>
-          <IndicatorWeather title={'Indicator 1'} subtitle={'Unidad 1'} value={"1.23"} /> 
-        </Grid>
-        <Grid size={{ xs: 12, xl: 3 }}>
-          <IndicatorWeather title={'Indicator 2'} subtitle={'Unidad 2'} value={"3.12"} />
-        </Grid>
-        <Grid size={{ xs: 12, xl: 3 }}>
-          <IndicatorWeather title={'Indicator 3'} subtitle={'Unidad 3'} value={"2.31"} />
-        </Grid>
-        <Grid size={{ xs: 12, xl: 3 }}>
-          <IndicatorWeather title={'Indicator 4'} subtitle={'Unidad 4'} value={"3.21"} />
-        </Grid>
-        */}
-
-        {
-          indicators
-          .map(
-              (indicator, idx) => (
-                  <Grid key={idx} size={{ xs: 12, xl: 3 }}>
-                      <IndicatorWeather 
-                          title={indicator["title"]} 
-                          subtitle={indicator["subtitle"]} 
-                          value={indicator["value"]} />
-                  </Grid>
-              )
-          )
-        }
-
         {/* Tabla */}
         <Grid size={{ xs: 12, xl: 8 }}>
           {/* Grid Anidado */}

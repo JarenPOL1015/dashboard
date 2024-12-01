@@ -26,7 +26,7 @@ export default function Header() {
     };
 
     return (
-        <AppBar position="static" sx={ { width: '100%'} }>
+        <AppBar position="static" sx={ { width: '100%', backgroundColor: '#3B1D8F'} }>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
