@@ -11,6 +11,7 @@ import LineChartWeather from './components/LineChartWeather';
 import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import DatosGenerales from './components/DatosGenerales';
+import PuestaSol from './components/PuestaSol';
 
 interface Indicator {
   title?: String;
@@ -22,7 +23,8 @@ function App() {
   // const [count, setCount] = useState(0)
 
   {/* Variable de estado y función de actualización */}
-  let [indicators, setIndicators] = useState<Indicator[]>([])
+  let [indicators, setIndicators] = useState<Indicator[]>([]);
+  let [datosVarios, setDatosVarios] = useState<Indicator[]>([]);
 
   {/* Hook: useEffect */}
   useEffect( () => {
@@ -40,11 +42,20 @@ function App() {
        {/* Arreglo para agregar los resultados */}
 
        let dataToIndicators : Indicator[] = new Array<Indicator>();
+       let datosVariosObtenidos: Indicator[] = new Array<Indicator>();
 
        {/* 
            Análisis, extracción y almacenamiento del contenido del XML 
            en el arreglo de resultados
        */}
+
+       let sol = xml.getElementsByTagName("sun")[0];
+
+       let rise = sol.getAttribute("rise") || "";
+       let set = sol.getAttribute("set") || "";
+
+       datosVariosObtenidos.push( {"title": "Sun_rise", "value": rise} )
+       datosVariosObtenidos.push( {"title": "Sun_set", "value": set} )
 
        // let name = xml.getElementsByTagName("name")[0].innerHTML || ""
        // dataToIndicators.push({"title":"Location", "subtitle": "City", "value": name})
@@ -60,6 +71,7 @@ function App() {
       // console.log( dataToIndicators )
       {/* Modificación de la variable de estado mediante la función de actualización */}
       setIndicators( dataToIndicators );
+      setDatosVarios( datosVariosObtenidos );
     }
 
     request();
@@ -70,6 +82,7 @@ function App() {
     <>
     <Header></Header>
     <DatosGenerales indicators={indicators} />
+    <PuestaSol indicators={datosVarios}></PuestaSol>
     <Grid container spacing={5}>
         {/* Tabla */}
         <Grid size={{ xs: 12, xl: 8 }}>
