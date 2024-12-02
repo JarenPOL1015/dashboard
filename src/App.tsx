@@ -13,6 +13,7 @@ import Header from './components/Header';
 import DatosGenerales from './components/DatosGenerales';
 import PuestaSol from './components/PuestaSol';
 import Pronostico from './components/Pronostico';
+import Item_Tabla from './interface/Item';
 
 interface Indicator {
   title?: String;
@@ -35,6 +36,8 @@ function App() {
   let [indicators, setIndicators] = useState<Indicator[]>([]);
   let [datosVarios, setDatosVarios] = useState<Indicator[]>([]);
   let [climas_dias, setClimas_dias] = useState<forecastClima[]>([]);
+  let [items, setItems] = useState<Item_Tabla[]>([]);
+
 
   {/* Hook: useEffect */}
   useEffect( () => {
@@ -52,6 +55,7 @@ function App() {
       {/* Obtener datos para mañana, tarde y noche */}
 
       const forecastTimes = xml.getElementsByTagName("time");
+      const dataToItems : Item_Tabla[] = [];
 
       let forecastList : forecastClima[] = []
 
@@ -78,6 +82,20 @@ function App() {
             "precipitacion": precipitacion || "",
             "nubes": nubes || ""
           });
+
+          const humedad = elemento_time.getElementsByTagName("humidity")[0]?.getAttribute("value");
+          const viento = elemento_time.getElementsByTagName("windSpeed")[0]?.getAttribute("mps");
+
+          dataToItems.push({
+            "dateStart": new String(hora_desde) || "",
+            "dateEnd": new String(hora_hasta) || "",
+            "humidity": new String(humedad?.toString()) || "",
+            "precipitation": new String(precipitacion?.toString()) || "",
+            "clouds": new String(nubes?.toString()) || "",
+            "windSpeed": new String(viento?.toString()) || "",
+            "temperature": new String(temperature?.toString()) || ""
+          });
+          
           // Eliminar la hora de la lista para que no se vuelva a agregar
           horas = horas.filter(hora => hora !== hora_comparar);
         }
@@ -116,6 +134,7 @@ function App() {
       setIndicators( dataToIndicators );
       setDatosVarios( datosVariosObtenidos );
       setClimas_dias( forecastList );
+      setItems(dataToItems);
     }
 
     request();
@@ -139,7 +158,7 @@ function App() {
                 <ControlWeather/>
             </Grid>
             <Grid size={{ xs: 12, xl: 9 }}>
-                <TableWeather/>
+                <TableWeather itemsIn={items}/>
             </Grid>
           </Grid>
         </Grid>
