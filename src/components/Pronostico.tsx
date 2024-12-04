@@ -29,6 +29,24 @@ export default function Pronostico({lista}: PronosticoProp) {
         return time;
     };
 
+    // Función para obtener la imagen del clima según el estado de las nubes
+    const getWeatherImage = (nubes: string) => {
+        let imagePath = "/media/default.png"; // Ruta predeterminada
+    
+        switch (nubes.toLowerCase()) {
+            case "broken clouds":
+                imagePath = "/media/nublado.png";
+                break;
+            case "few clouds":
+                imagePath = "/media/despejado.png";
+                break;
+        }
+    
+        console.log(`Image Path: ${imagePath}`);  // Verifica la ruta en la consola
+        return imagePath;
+    };
+    
+
     // Clasificación de los pronósticos en 3 categorías: mañana, tarde, noche
     const morningData = lista.filter(item => {
         const hour = parseInt(item.desde.split("T")[1].split(":")[0]);
@@ -81,7 +99,7 @@ export default function Pronostico({lista}: PronosticoProp) {
                         letterSpacing: '.05rem',
                     }}
                 >
-                    Fecha: 01/12/2024
+                    Mañana, tarde y noche entre el día actual y/o siguiente
                 </Typography>
             </Box>
             {/* Contenedor para las tarjetas */}
@@ -106,7 +124,7 @@ export default function Pronostico({lista}: PronosticoProp) {
                         {morningData.map((item, index) => (
                             <Card key={index} sx={{ marginTop: '10px' }}>
                                 <CardContent>
-                                    <img src="" alt="weather" width="40" height="40" />
+                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="40" height="40" />
                                     <Typography variant="h6">{item.nubes}</Typography>
                                     <List>
                                         <ListItem>
@@ -149,7 +167,7 @@ export default function Pronostico({lista}: PronosticoProp) {
                         {afternoonData.map((item, index) => (
                             <Card key={index} sx={{ marginTop: '10px' }}>
                                 <CardContent>
-                                    <img src="" alt="weather" width="40" height="40" />
+                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="40" height="40" />
                                     <Typography variant="h6">{item.nubes}</Typography>
                                     <List>
                                         <ListItem>
@@ -192,7 +210,7 @@ export default function Pronostico({lista}: PronosticoProp) {
                         {nightData.map((item, index) => (
                             <Card key={index} sx={{ marginTop: '10px' }}>
                                 <CardContent>
-                                    <img src="" alt="weather" width="40" height="40" />
+                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="40" height="40" />
                                     <Typography variant="h6">{item.nubes}</Typography>
                                     <List>
                                         <ListItem>
