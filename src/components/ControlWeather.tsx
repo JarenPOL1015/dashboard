@@ -7,21 +7,27 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import Item_Tabla from '../interface/Item';
+
 // Gráficos importados
 import HumedadGraph from './HumedadGraph';
 import PrecipitacionGraph from './PrecipitacionGraph'; // Gráfico de Precipitación
-import NubosidadGraph from './HumedadGraph';
+import VientoGraph from './VientoGraph';
 
-export default function ControlWeather() {
+interface ControlWeatherProps {
+    itemsIn: Item_Tabla[];
+}
+
+export default function ControlWeather( {itemsIn} : ControlWeatherProps ) {
     const descriptionRef = useRef<HTMLDivElement>(null);
 
     let [selected, setSelected] = useState<number>(-1);
-    let [graphComponent, setGraphComponent] = useState<JSX.Element | null>(null); // Estado para el componente del gráfico
+    const [graphComponent, setGraphComponent] = useState<JSX.Element | null>(<HumedadGraph itemsIn={itemsIn} />); // Inicializamos con el gráfico de humedad
 
     let items = [
-        { "name": "Precipitación", "description": "Cantidad de agua que cae sobre una superficie en un período específico.", "component": <PrecipitacionGraph /> }, 
-        { "name": "Humedad", "description": "Cantidad de vapor de agua presente en el aire, generalmente expresada como un porcentaje.", "component": <HumedadGraph /> }, 
-        { "name": "Nubosidad", "description": "Grado de cobertura del cielo por nubes, afectando la visibilidad y la cantidad de luz solar recibida.", "component": <NubosidadGraph /> }
+        { "name": "Precipitación", "description": "Probabilidad de lluvia (en porcentaje) para la ciudad en determinado rango de horas", "component": <PrecipitacionGraph itemsIn={itemsIn} /> }, 
+        { "name": "Humedad", "description": "Tendencia de humedad cada 3 horas en la ciudad de Guayaquil", "component": <HumedadGraph itemsIn={itemsIn} /> }, 
+        { "name": "Velocidad del Viento", "description": "Velocidad del Viento en determinadas horas dentro de la ciudad.", "component": <VientoGraph itemsIn={itemsIn} /> }
     ];
 
     let options = items.map((item, key) => (
@@ -42,7 +48,7 @@ export default function ControlWeather() {
         if (idx >= 0) {
             setGraphComponent(items[idx].component);
         } else {
-            setGraphComponent(null); // Si no se selecciona nada, limpiar el gráfico
+            setGraphComponent(<HumedadGraph itemsIn={itemsIn} />); // Si no se selecciona nada, mostrar el gráfico de Humedad
         }
     };
 

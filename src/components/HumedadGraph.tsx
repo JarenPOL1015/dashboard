@@ -1,17 +1,33 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Item_Tabla from '../interface/Item';
 
-const HumedadGraph = () => {
-    const data = [
-        { hour: '00:00', humidity: 80 },
-        { hour: '01:00', humidity: 78 },
-        { hour: '02:00', humidity: 75 },
-        { hour: '03:00', humidity: 72 },
-        { hour: '04:00', humidity: 70 },
-    ];
+interface HumedadGraphProps {
+    itemsIn: Item_Tabla[];
+}
+
+const HumedadGraph = ( props: HumedadGraphProps ) => {
+
+    const filterLastSevenHours = (data: Item_Tabla[]) => {
+        // Convertir las horas de "dateStart" en formato Date para poder hacer comparaciones
+        const filteredData = data
+            .map(item => ({
+                ...item,
+                hour: new Date(item.dateStart.toString()).getHours() + ":00" // Formateamos la hora
+            }))
+            .slice(-7); // Tomamos solo las últimas 7 horas
+        return filteredData;
+    };
+
+    // Filtramos las 7 horas más recientes y extraemos la información relevante para el gráfico
+    const filteredData = filterLastSevenHours(props.itemsIn);
+    const chartData = filteredData.map(item => ({
+        hour: item.hour,
+        humidity: parseFloat(item.humidity.toString()), // Convertir la humedad a número
+    }));
 
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
+            <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="hour" />
                 <YAxis />

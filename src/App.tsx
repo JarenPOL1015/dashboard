@@ -159,18 +159,11 @@ function App() {
         <Grid size={{ xs: 12, xl: 8 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, xl: 3 }}>
-                <ControlWeather/>
+                <ControlWeather itemsIn={items}/>
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={{ xs: 12, xl: 4 }}>
-          <LineChartWeather></LineChartWeather>
-        </Grid>
-    </Grid>
-
-
-    
-    
+    </Grid> 
     </>
     
   );

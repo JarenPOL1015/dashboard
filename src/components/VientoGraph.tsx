@@ -1,29 +1,28 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Item_Tabla from '../interface/Item';
 
-interface PrecipitacionGraphProps {
+interface VientoGraphProps {
     itemsIn: Item_Tabla[];
 }
 
-const PrecipitacionGraph = (props: PrecipitacionGraphProps) => {
+const VientoGraph = ( props: VientoGraphProps ) => {
 
-    // Función para filtrar las últimas 7 horas
     const filterLastSevenHours = (data: Item_Tabla[]) => {
+        // Convertir las horas de "dateStart" en formato Date para poder hacer comparaciones
         const filteredData = data
             .map(item => ({
                 ...item,
-                hour: new Date(item.dateStart.toString()).getHours() + ":00" // Convertimos a formato "HH:00"
+                hour: new Date(item.dateStart.toString()).getHours() + ":00" // Formateamos la hora
             }))
             .slice(-7); // Tomamos solo las últimas 7 horas
         return filteredData;
     };
 
-    // Filtramos las 7 horas más recientes y extraemos la información para el gráfico
+    // Filtramos las 7 horas más recientes y extraemos la información relevante para el gráfico
     const filteredData = filterLastSevenHours(props.itemsIn);
-
     const chartData = filteredData.map(item => ({
         hour: item.hour,
-        precipitation: parseFloat(item.precipitation.toString()) || 0, // Asegúrate de convertir correctamente a número
+        windSpeed: parseFloat(item.windSpeed.toString()), // Convertir la humedad a número
     }));
 
     return (
@@ -34,10 +33,10 @@ const PrecipitacionGraph = (props: PrecipitacionGraphProps) => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="precipitation" stroke="#0C59CF" /> {/* Cambiar a precipitation */}
+                <Line type="monotone" dataKey="windSpeed" stroke="#0C59CF" />
             </LineChart>
         </ResponsiveContainer>
     );
 };
 
-export default PrecipitacionGraph;
+export default VientoGraph;
