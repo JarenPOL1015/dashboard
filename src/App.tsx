@@ -5,7 +5,6 @@ import './App.css'
 import Grid from '@mui/material/Grid2' 
 import TableWeather from './components/TableWeather';
 import ControlWeather from './components/ControlWeather';
-import LineChartWeather from './components/LineChartWeather';
 
 {/* Hooks */ }
 import { useEffect, useState } from 'react';
