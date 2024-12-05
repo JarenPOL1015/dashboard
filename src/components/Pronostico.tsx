@@ -35,17 +35,23 @@ export default function Pronostico({lista}: PronosticoProp) {
     
         switch (nubes.toLowerCase()) {
             case "broken clouds":
-                imagePath = "/media/nublado.png";
+                imagePath = "https://cdn-icons-png.flaticon.com/512/6566/6566392.png";
                 break;
             case "few clouds":
-                imagePath = "/media/despejado.png";
+                imagePath = "https://cdn-icons-png.freepik.com/512/17453/17453315.png";
                 break;
+            default:
+                imagePath = "https://cdn-icons-png.freepik.com/512/648/648198.png";
         }
-    
-        console.log(`Image Path: ${imagePath}`);  // Verifica la ruta en la consola
         return imagePath;
     };
     
+    // Función para convertir Kelvin a Celsius
+    const kelvinToCelsius = (kelvin: string) => {
+        const tempK = parseFloat(kelvin); // Asegura que la temperatura sea un número
+        const celsius = tempK - 273.15;  // Realiza la conversión
+        return parseFloat(celsius.toFixed(2)); // Redondea a 2 decimales
+    };
 
     // Clasificación de los pronósticos en 3 categorías: mañana, tarde, noche
     const morningData = lista.filter(item => {
@@ -124,11 +130,11 @@ export default function Pronostico({lista}: PronosticoProp) {
                         {morningData.map((item, index) => (
                             <Card key={index} sx={{ marginTop: '10px' }}>
                                 <CardContent>
-                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="40" height="40" />
+                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="60" height="60" />
                                     <Typography variant="h6">{item.nubes}</Typography>
                                     <List>
                                         <ListItem>
-                                            <ListItemText primary={`Temperatura: ${item.temperatura}°C`} />
+                                        <ListItemText primary={`Temperatura: ${kelvinToCelsius(item.temperatura).toFixed(1)}°C`} />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText primary={`Precipitación: ${item.precipitacion}%`} />
@@ -167,11 +173,11 @@ export default function Pronostico({lista}: PronosticoProp) {
                         {afternoonData.map((item, index) => (
                             <Card key={index} sx={{ marginTop: '10px' }}>
                                 <CardContent>
-                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="40" height="40" />
+                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="60" height="60" />
                                     <Typography variant="h6">{item.nubes}</Typography>
                                     <List>
                                         <ListItem>
-                                            <ListItemText primary={`Temperatura: ${item.temperatura}°C`} />
+                                        <ListItemText primary={`Temperatura: ${kelvinToCelsius(item.temperatura).toFixed(1)}°C`} />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText primary={`Precipitación: ${item.precipitacion}%`} />
@@ -210,11 +216,11 @@ export default function Pronostico({lista}: PronosticoProp) {
                         {nightData.map((item, index) => (
                             <Card key={index} sx={{ marginTop: '10px' }}>
                                 <CardContent>
-                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="40" height="40" />
+                                    <img src={getWeatherImage(item.nubes)} alt="weather" width="60" height="60" />
                                     <Typography variant="h6">{item.nubes}</Typography>
                                     <List>
                                         <ListItem>
-                                            <ListItemText primary={`Temperatura: ${item.temperatura}°C`} />
+                                        <ListItemText primary={`Temperatura: ${kelvinToCelsius(item.temperatura).toFixed(1)}°C`} />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText primary={`Precipitación: ${item.precipitacion}%`} />

@@ -68,24 +68,31 @@ function App() {
       
         let hora_comparar = hora_desde?.split("T")[1].toString().trim() || "";
 
+        let temperature: string | null = "";
+        let precipitacion : string | null = "";
+        let nubes : string | null = "";
+
+        temperature = elemento_time.getElementsByTagName("temperature")[0]?.getAttribute("value");
+        precipitacion = elemento_time.getElementsByTagName("precipitation")[0]?.getAttribute("probability");
+        nubes = elemento_time.getElementsByTagName("clouds")[0]?.getAttribute("value");
+
         // Filtrar solo los pronósticos que corresponden al día actual
-        if (horas.includes(hora_comparar)) { 
-          
-          const temperature = elemento_time.getElementsByTagName("temperature")[0]?.getAttribute("value");
-          const precipitacion = elemento_time.getElementsByTagName("precipitation")[0]?.getAttribute("probability");
-          const nubes = elemento_time.getElementsByTagName("clouds")[0]?.getAttribute("value");
-          
+        if (horas.includes(hora_comparar)) {           
           forecastList.push({
             "desde": hora_desde || "",
             "hasta": hora_hasta || "",
             "temperatura": temperature || "",
             "precipitacion": precipitacion || "",
             "nubes": nubes || ""
-          });
+          });          
+          // Eliminar la hora de la lista para que no se vuelva a agregar
+          horas = horas.filter(hora => hora !== hora_comparar);
+        }
 
-          const humedad = elemento_time.getElementsByTagName("humidity")[0]?.getAttribute("value");
-          const viento = elemento_time.getElementsByTagName("windSpeed")[0]?.getAttribute("mps");
+        let humedad = elemento_time.getElementsByTagName("humidity")[0]?.getAttribute("value");
+        let viento = elemento_time.getElementsByTagName("windSpeed")[0]?.getAttribute("mps");
 
+        if(dataToItems.length <= 7) {
           dataToItems.push({
             "dateStart": new String(hora_desde) || "",
             "dateEnd": new String(hora_hasta) || "",
@@ -95,10 +102,8 @@ function App() {
             "windSpeed": new String(viento?.toString()) || "",
             "temperature": new String(temperature?.toString()) || ""
           });
-          
-          // Eliminar la hora de la lista para que no se vuelva a agregar
-          horas = horas.filter(hora => hora !== hora_comparar);
         }
+        
       }
        {/* Arreglo para agregar los resultados */}
 
@@ -149,26 +154,23 @@ function App() {
     <DatosGenerales indicators={indicators} />
     <PuestaSol indicators={datosVarios}></PuestaSol>
     <Pronostico lista={climas_dias}></Pronostico>
+    <TableWeather itemsIn={items}/>
     <Grid container spacing={5}>
-        {/* Tabla */}
         <Grid size={{ xs: 12, xl: 8 }}>
-          {/* Grid Anidado */}
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, xl: 3 }}>
                 <ControlWeather/>
             </Grid>
-            <Grid size={{ xs: 12, xl: 9 }}>
-                <TableWeather itemsIn={items}/>
-            </Grid>
           </Grid>
         </Grid>
-
-        {/* Gráfico */}
         <Grid size={{ xs: 12, xl: 4 }}>
           <LineChartWeather></LineChartWeather>
         </Grid>
-    
     </Grid>
+
+
+    
+    
     </>
     
   );

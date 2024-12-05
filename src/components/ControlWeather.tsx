@@ -46,47 +46,62 @@ export default function ControlWeather() {
 
     {/* JSX */}
     return (
-        <Paper
+        <>
+            <Typography
+                variant="h3"
+                sx={{
+                    fontFamily: 'Arial',
+                    fontWeight: 700,
+                    letterSpacing: '.1rem',
+                    textAlign: 'center',
+                    color: 'white',
+                    padding: '10px',
+                    backgroundColor: '#1C0C4F',
+                    margin: '20px 0',
+                    marginBottom: '30px'
+                }}
+            >
+                Gráfica
+            </Typography>
+            <Paper
             sx={{
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column'
             }}
-        >
+            >
+                <Typography mb={2} component="h3" variant="h6" color="primary">
+                    Variables Meteorológicas
+                </Typography>
 
-            <Typography mb={2} component="h3" variant="h6" color="primary">
-                Variables Meteorológicas
-            </Typography>
+                <Box sx={{ minWidth: 120 }}>
+                    
+                    <FormControl fullWidth>
+                        <InputLabel id="simple-select-label">Variables</InputLabel>
+                        <Select
+                            labelId="simple-select-label"
+                            id="simple-select"
+                            label="Variables"
+                            defaultValue='-1'
+                            onChange={handleChange}
+                        >
+                            <MenuItem key="-1" value="-1" disabled>Seleccione una variable</MenuItem>
 
-            <Box sx={{ minWidth: 120 }}>
-                   
-                <FormControl fullWidth>
-                    <InputLabel id="simple-select-label">Variables</InputLabel>
-                    <Select
-                        labelId="simple-select-label"
-                        id="simple-select"
-                        label="Variables"
-                        defaultValue='-1'
-                        onChange={handleChange}
-                    >
-                        <MenuItem key="-1" value="-1" disabled>Seleccione una variable</MenuItem>
+                            {options}
 
-                        {options}
+                        </Select>
+                    </FormControl>
+                </Box>
 
-                    </Select>
-                </FormControl>
-            </Box>
+                {/* Use la variable de estado para renderizar del item seleccionado */}
+                {/*<Typography mt={2} component="p" color="text.secondary">
+                {
+                    (selected >= 0)?items[selected]["description"]:""
+                }
+                </Typography>*/}
 
-             {/* Use la variable de estado para renderizar del item seleccionado */}
-             {/*<Typography mt={2} component="p" color="text.secondary">
-             {
-                 (selected >= 0)?items[selected]["description"]:""
-             }
-             </Typography>*/}
-
-            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
-        </Paper>
-
-
+                <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
+            </Paper>
+        </>
     )
 }
