@@ -71,7 +71,7 @@ export default function Pronostico({lista}: PronosticoProp) {
 
 
     return (
-        <>
+        <div id="pronóstico">
             <Typography
                 variant="h3"
                 sx={{
@@ -241,6 +241,6 @@ export default function Pronostico({lista}: PronosticoProp) {
                     </Grid>
                 )}
             </Grid>
-        </>
+        </div>
     );
 }

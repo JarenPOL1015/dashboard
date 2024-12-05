@@ -32,131 +32,134 @@ export default function PuestaSol( { indicators } : PuestaSolProps ) {
     return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
   return (
-    <Box
-      sx={{
-        display: 'flex',            // Usa Flexbox para alinear los elementos
-        flexDirection: 'row',       // Alineación en fila
-        justifyContent: 'space-evenly', // Espacio entre los elementos
-        alignItems: 'center',       // Alineación vertical centrada
-        padding: '20px',            // Añadir padding
-        gap: '20px'
-      }}
-    >
-      {/* GIF del Sol */}
-      <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-        <img 
-          src="https://media1.tenor.com/m/OJ7WlTChrfoAAAAd/doge-dogecoin.gif"
-          alt="Sol Poniente"
-          style={{ width: '100%', height: 'auto' }} // Ajusta tamaño
-        />
-      </Box>
-
-      {/* Rectángulos con bordes redondeados */}
-      <Box
+    <div id="puestadelsol">
+        <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',  // Alineación en columna para los rectángulos
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          flex: 1,                  // Ocupa el mismo espacio que el GIF
+          display: 'flex',            // Usa Flexbox para alinear los elementos
+          flexDirection: 'row',       // Alineación en fila
+          justifyContent: 'space-evenly', // Espacio entre los elementos
+          alignItems: 'center',       // Alineación vertical centrada
+          padding: '20px',            // Añadir padding
+          gap: '20px'
         }}
       >
-        {
-            indicators.map((indicator, idx) => {
-            // Realiza un casting explícito de 'indicator.value' de 'String' a 'string'
-            const hour = indicator.value ? formatHour(String(indicator.value)) : '';  // Formatear la hora                
-                if (indicator.title === "Sun_rise") {
-                    
-                  return (
-                    <Box
-                      key={idx}
-                      sx={{
-                        width: '100%',
-                        height: '100px',
-                        backgroundColor: '#00A4D3',
-                        borderRadius: '10px',
-                        marginBottom: '10px',
-                        display: 'flex',
-                        justifyContent: 'space-evenly',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Typography
-                        variant="h5"
+        {/* GIF del Sol */}
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <img 
+            src="https://media1.tenor.com/m/OJ7WlTChrfoAAAAd/doge-dogecoin.gif"
+            alt="Sol Poniente"
+            style={{ width: '100%', height: 'auto' }} // Ajusta tamaño
+          />
+        </Box>
+
+        {/* Rectángulos con bordes redondeados */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',  // Alineación en columna para los rectángulos
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            flex: 1,                  // Ocupa el mismo espacio que el GIF
+          }}
+        >
+          {
+              indicators.map((indicator, idx) => {
+              // Realiza un casting explícito de 'indicator.value' de 'String' a 'string'
+              const hour = indicator.value ? formatHour(String(indicator.value)) : '';  // Formatear la hora                
+                  if (indicator.title === "Sun_rise") {
+                      
+                    return (
+                      <Box
+                        key={idx}
                         sx={{
-                          fontWeight: 'bold',
-                          color: '#FFFFFF',
-                          fontFamily: 'Arial, sans-serif',
+                          width: '100%',
+                          height: '100px',
+                          backgroundColor: '#00A4D3',
+                          borderRadius: '10px',
+                          marginBottom: '10px',
+                          display: 'flex',
+                          justifyContent: 'space-evenly',
+                          alignItems: 'center',
                         }}
                       >
-                        Salida de Sol: <br /> {hour}
-                      </Typography>
-                    </Box>
-                  );
-                } else {
-                  return (
-                    <Box
-                      key={idx}
-                      sx={{
-                        width: '100%',
-                        height: '100px',
-                        backgroundColor: '#1C0C4F',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Typography
-                        variant="h5"
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontWeight: 'bold',
+                            color: '#FFFFFF',
+                            fontFamily: 'Arial, sans-serif',
+                          }}
+                        >
+                          Salida de Sol: <br /> {hour}
+                        </Typography>
+                      </Box>
+                    );
+                  } else {
+                    return (
+                      <Box
+                        key={idx}
                         sx={{
-                          fontWeight: 'bold',
-                          color: '#FFFFFF',
-                          fontFamily: 'Arial, sans-serif',
+                          width: '100%',
+                          height: '100px',
+                          backgroundColor: '#1C0C4F',
+                          borderRadius: '10px',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
                         }}
                       >
-                        Puesta de Sol: <br /> {hour}
-                      </Typography>
-                    </Box>
-                  );
-                }
-              })
-        }
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontWeight: 'bold',
+                            color: '#FFFFFF',
+                            fontFamily: 'Arial, sans-serif',
+                          }}
+                        >
+                          Puesta de Sol: <br /> {hour}
+                        </Typography>
+                      </Box>
+                    );
+                  }
+                })
+          }
+          
+          
         
-        
-      
-      </Box>
+        </Box>
 
-      {/* Mini tabla o calendario */}
-      <Box sx={{ flex: 1 }}>
-        <Card sx={{ width: '100%' }}>
-          <CardContent>
-            {/* Título */}
-            <Typography variant="h6" align="center" sx={{ backgroundColor: '#CBE8BA', padding: '8px', borderRadius: '5px' }} gutterBottom>
-              Fecha Actual
-            </Typography>
+        {/* Mini tabla o calendario */}
+        <Box sx={{ flex: 1 }}>
+          <Card sx={{ width: '100%' }}>
+            <CardContent>
+              {/* Título */}
+              <Typography variant="h6" align="center" sx={{ backgroundColor: '#CBE8BA', padding: '8px', borderRadius: '5px' }} gutterBottom>
+                Fecha Actual
+              </Typography>
 
-            {/* Tabla con fecha */}
-            <TableContainer>
-              <Table sx={{ width: '100%' }}>
-                <TableBody>
-                  {/* Fila con día y mes */}
-                  <TableRow>
-                    <TableCell sx={{ textAlign: 'center' }}><Typography variant="h5">{day}</Typography></TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><Typography variant="h5">{month}</Typography></TableCell>
-                  </TableRow>
-                  {/* Fila con año */}
-                  <TableRow>
-                    <TableCell colSpan={2} sx={{ textAlign: 'center' }}>
-                      <Typography variant="h5">{year}</Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
+              {/* Tabla con fecha */}
+              <TableContainer>
+                <Table sx={{ width: '100%' }}>
+                  <TableBody>
+                    {/* Fila con día y mes */}
+                    <TableRow>
+                      <TableCell sx={{ textAlign: 'center' }}><Typography variant="h5">{day}</Typography></TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}><Typography variant="h5">{month}</Typography></TableCell>
+                    </TableRow>
+                    {/* Fila con año */}
+                    <TableRow>
+                      <TableCell colSpan={2} sx={{ textAlign: 'center' }}>
+                        <Typography variant="h5">{year}</Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </Box>
       </Box>
-    </Box>
+    </div>
+    
   );
 }

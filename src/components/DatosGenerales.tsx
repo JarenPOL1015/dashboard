@@ -43,7 +43,7 @@ const cards = [
 // Componente principal
 export default function DatosGenerales({ indicators }: DatosGeneralesProps) {
     return (
-        <>
+        <div id="datogenerales">
             <Typography
                 variant="h3"
                 sx={{
@@ -136,6 +136,6 @@ export default function DatosGenerales({ indicators }: DatosGeneralesProps) {
                 </Grid>
                 ))}
             </Grid>
-        </>
+        </div>
     );
 }

@@ -53,7 +53,7 @@ export default function ControlWeather( {itemsIn} : ControlWeatherProps ) {
     };
 
     return (
-        <>
+        <div id="gráfica">
             <Typography
                 variant="h3"
                 sx={{
@@ -96,6 +96,6 @@ export default function ControlWeather( {itemsIn} : ControlWeatherProps ) {
                 {/* Renderizar el gráfico correspondiente */}
                 {graphComponent}
             </Paper>
-        </>
+        </div>
     );
 }
