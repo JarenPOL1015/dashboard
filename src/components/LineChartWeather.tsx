@@ -27,8 +27,8 @@ export default function LineChartWeather() {
 
             {/* Componente para un gráfico de líneas */}
             <LineChart
-                width={400}
-                height={250}
+                width={800}
+                height={300}
                 series={[
                     { data: pData, label: 'pv' },
                     { data: uData, label: 'uv' },
