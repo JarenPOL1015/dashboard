@@ -21,6 +21,7 @@ interface ControlWeatherProps {
 export default function ControlWeather( {itemsIn} : ControlWeatherProps ) {
     const descriptionRef = useRef<HTMLDivElement>(null);
 
+    // @ts-ignore
     let [selected, setSelected] = useState<number>(-1);
     const [graphComponent, setGraphComponent] = useState<JSX.Element | null>(<HumedadGraph itemsIn={itemsIn} />); // Inicializamos con el gráfico de humedad
 
