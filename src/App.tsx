@@ -155,14 +155,10 @@ function App() {
     <Pronostico lista={climas_dias}></Pronostico>
     <TableWeather itemsIn={items}/>
     <Grid container spacing={5}>
-        <Grid size={{ xs: 12, xl: 8 }}>
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, xl: 3 }}>
-                <ControlWeather itemsIn={items}/>
-            </Grid>
-          </Grid>
+        <Grid size={{ xs: 12, xl: 12 }}>
+          <ControlWeather itemsIn={items}/>
         </Grid>
-    </Grid> 
+    </Grid>  
     </>
     
   );
