@@ -11,7 +11,7 @@ import { Typography, Box } from '@mui/material';
 
 interface TableWeatherProps {
   itemsIn: Item_Tabla[];
-}
+} 
 
 export default function BasicTable( props: TableWeatherProps ) {
 
