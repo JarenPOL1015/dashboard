@@ -24,13 +24,15 @@ export default function PuestaSol( { indicators } : PuestaSolProps ) {
     const { day, month, year } = formatCurrentDate();
   
     const formatHour = (dateString: string) => {
-        const date = new Date(dateString);  // Convierte la fecha a un objeto Date
-        const hours = date.getHours();  // Obtén las horas
-        const minutes = date.getMinutes();  // Obtén los minutos
-        const seconds = date.getSeconds();  // Obtén los segundos
-        // Formato hh:mm:ss (Aseguramos que los minutos y segundos tengan dos dígitos)
-    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      const date = new Date(dateString);
+      date.setHours(date.getHours() - 5);  // Restar 5 horas para ajustar a UTC-5
+      const hours = date.getHours();  // Obtén las horas ajustadas
+      const minutes = date.getMinutes();  // Obtén los minutos
+      const seconds = date.getSeconds();  // Obtén los segundos
+      // Formato hh:mm:ss (Aseguramos que los minutos y segundos tengan dos dígitos)
+      return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
+  
   return (
     <div id="puestadelsol">
         <Box
